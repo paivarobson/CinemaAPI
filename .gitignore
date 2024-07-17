@@ -1,0 +1,62 @@
+# Ignorar diretórios de build
+bin/
+obj/
+
+# Ignorar arquivos de configuração do usuário do Visual Studio
+*.suo
+*.user
+*.userprefs
+*.vs/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar diretórios de pacotes NuGet
+packages/
+*.nupkg
+
+# Ignorar arquivos de ambiente
+*.env
+
+# Ignorar arquivos de backup do Visual Studio
+*~.tmp
+*.tmp
+*.bak
+*.swp
+
+# Ignorar arquivos do Swagger
+/swagger/
+
+# Ignorar arquivos de configuração de banco de dados
+appsettings.Development.json
+appsettings.*.json
+
+# Ignorar diretórios de migrations do Entity Framework
+Migrations/
+
+# Ignorar arquivos de cache e temporários
+*.cache
+*.db
+
+# Ignorar arquivos de configuração de testes
+TestResults/
+
+# Ignorar arquivos de cobertura de testes
+coverage/
+
+# Ignore arquivos gerados pelo .NET CLI
+*.dll
+*.exe
+*.pdb
+*.mdb
+
+# Ignorar diretórios de dependências de front-end (se houver)
+node_modules/
+dist/
+build/
+
+# Ignorar arquivos de configuração do Swagger
+*.swagger.json
+
+# Ignorar arquivos de publicação
+publish/
