@@ -31,8 +31,6 @@ packages/
 appsettings.Development.json
 appsettings.*.json
 
-# Ignorar diretórios de migrations do Entity Framework
-Migrations/
 
 # Ignorar arquivos de cache e temporários
 *.cache
