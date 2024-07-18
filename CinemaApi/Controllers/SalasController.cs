@@ -62,13 +62,13 @@ public class SalasController : ControllerBase
         _context.Salas.Add(sala);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetSala), new { id = sala.Numero }, sala);
+        return CreatedAtAction(nameof(GetSala), new { id = sala.Id }, sala);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> PutSala(int id, Sala sala)
     {
-        if (id != sala.Numero)
+        if (id != sala.Id)
         {
             return BadRequest();
         }
@@ -106,6 +106,6 @@ public class SalasController : ControllerBase
 
     private bool SalaExiste(int id)
     {
-        return _context.Salas.Any(e => e.Numero == id);
+        return _context.Salas.Any(e => e.Id == id);
     }
 }
