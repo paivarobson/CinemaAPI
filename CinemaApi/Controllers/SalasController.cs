@@ -13,7 +13,7 @@ public class SalasController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Filme>>> GetSalas(int pagina = 1, int itensPagina = 3)
+    public async Task<ActionResult<IEnumerable<Sala>>> GetSalas(int pagina = 1, int itensPagina = 3)
     {
         if (pagina <= 0 || itensPagina <= 0)
             return BadRequest("Página e itens da página devem ser maiores que 0");
@@ -21,14 +21,14 @@ public class SalasController : ControllerBase
         var totalSalas = await _context.Salas.CountAsync();
 
         if (totalSalas == 0)
-            return NotFound("Nenhum filme encontrado.");
+            return NotFound("Nenhum sala encontrado.");
 
         var totalPaginas = (int)Math.Ceiling(totalSalas / (double)itensPagina);
 
         if (pagina > totalPaginas)
             return BadRequest($"O número de página(s) excede o total de página(s). Existem apena(s) {totalPaginas} página(s).");
 
-        var salas = await _context.Filmes
+        var salas = await _context.Salas
             .Skip((pagina - 1) * itensPagina)
             .Take(itensPagina)
             .ToListAsync();
