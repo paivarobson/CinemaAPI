@@ -2,21 +2,6 @@ public class DataSeeder
 {
     public static void Seed(CinemaContext context)
     {
-        if (!context.Filmes.Any())
-        {
-            var filmes = new List<Filme>
-            {
-                new Filme { Nome = "A Origem", Diretor = "Christopher Nolan", Duracao = 148, SalaId = 1 },
-                new Filme { Nome = "O Poderoso Chefão", Diretor = "Francis Ford Coppola", Duracao = 175, SalaId = 1 },
-                new Filme { Nome = "Batman: O Cavaleiro das Trevas", Diretor = "Christopher Nolan" },
-                new Filme { Nome = "Pulp Fiction: Tempo de Violência", Diretor = "Quentin Tarantino", SalaId = 4 },
-                new Filme { Nome = "Interstellar", Diretor = "Christopher Nolan", Duracao = 169, SalaId = 5 }
-            };
-
-            context.Filmes.AddRange(filmes);
-            context.SaveChanges();
-        }
-
         if (!context.Salas.Any())
         {
             var salas = new List<Sala>
@@ -31,5 +16,21 @@ public class DataSeeder
             context.Salas.AddRange(salas);
             context.SaveChanges();
         }
+
+        if (!context.Filmes.Any())
+        {
+            var filmes = new List<Filme>
+            {
+                new Filme { Nome = "A Origem", Diretor = "Christopher Nolan", Duracao = 148, SalaId = 1 },
+                new Filme { Nome = "O Poderoso Chefão", Diretor = "Francis Ford Coppola", Duracao = 175, SalaId = 1 },
+                new Filme { Nome = "Batman: O Cavaleiro das Trevas", Diretor = "Christopher Nolan", Duracao = 190 },
+                new Filme { Nome = "Pulp Fiction: Tempo de Violência", Diretor = "Quentin Tarantino", Duracao = 120, SalaId = 4 },
+                new Filme { Nome = "Interstellar", Diretor = "Christopher Nolan", Duracao = 169, SalaId = 5 }
+            };
+
+            context.Filmes.AddRange(filmes);
+            context.SaveChanges();
+        }
+
     }
 }
