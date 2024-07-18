@@ -39,7 +39,7 @@ public class SalasController : ControllerBase
             ItensPagina = itensPagina,
             TotalSalas = totalSalas,
             TotalPaginas = totalPaginas,
-            Dados = salas
+            Salas = salas
         };
 
         return Ok(result);
