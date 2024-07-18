@@ -1,9 +1,9 @@
 public class Filme
 {
     public int Id { get; set; }
-    public string Titulo { get; set; }
-    public string Genero { get; set; }
-    public string Diretor { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string Diretor { get; set; } = string.Empty;
     public int Duracao { get; set; }
-    public int AnoLancamento {get; set; }
+    public int? SalaId {get; set; }
+    public Sala? Sala { get; set; }
 }

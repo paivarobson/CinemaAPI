@@ -39,7 +39,7 @@ public class FilmesController : ControllerBase
             ItensPagina = itensPagina,
             TotalFilmes = totalFilmes,
             TotalPaginas = totalPaginas,
-            Dado = filmes
+            Dados = filmes
         };
 
         return Ok(result);
