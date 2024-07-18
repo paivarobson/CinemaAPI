@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaApi.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    [Migration("20240718024236_CriacaoInicial")]
+    [Migration("20240718183129_CriacaoInicial")]
     partial class CriacaoInicial
     {
         /// <inheritdoc />
@@ -20,6 +20,27 @@ namespace CinemaApi.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Cinema", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("FilmeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SalaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmeId");
+
+                    b.HasIndex("SalaId");
+
+                    b.ToTable("Cinemas");
+                });
 
             modelBuilder.Entity("Filme", b =>
                 {
@@ -66,14 +87,30 @@ namespace CinemaApi.Migrations
                     b.ToTable("Salas");
                 });
 
-            modelBuilder.Entity("Filme", b =>
+            modelBuilder.Entity("Cinema", b =>
                 {
+                    b.HasOne("Filme", "Filme")
+                        .WithMany()
+                        .HasForeignKey("FilmeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Sala", "Sala")
-                        .WithMany("Filmes")
+                        .WithMany()
                         .HasForeignKey("SalaId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filme");
 
                     b.Navigation("Sala");
+                });
+
+            modelBuilder.Entity("Filme", b =>
+                {
+                    b.HasOne("Sala", null)
+                        .WithMany("Filmes")
+                        .HasForeignKey("SalaId");
                 });
 
             modelBuilder.Entity("Sala", b =>

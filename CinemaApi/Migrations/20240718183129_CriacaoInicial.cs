@@ -50,10 +50,46 @@ namespace CinemaApi.Migrations
                         name: "FK_Filmes_Salas_SalaId",
                         column: x => x.SalaId,
                         principalTable: "Salas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Cinemas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    SalaId = table.Column<int>(type: "int", nullable: false),
+                    FilmeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cinemas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cinemas_Filmes_FilmeId",
+                        column: x => x.FilmeId,
+                        principalTable: "Filmes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cinemas_Salas_SalaId",
+                        column: x => x.SalaId,
+                        principalTable: "Salas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cinemas_FilmeId",
+                table: "Cinemas",
+                column: "FilmeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cinemas_SalaId",
+                table: "Cinemas",
+                column: "SalaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Filmes_SalaId",
@@ -64,6 +100,9 @@ namespace CinemaApi.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Cinemas");
+
             migrationBuilder.DropTable(
                 name: "Filmes");
 
