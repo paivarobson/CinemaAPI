@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 public class Sala
 {
     public int Id { get; set; }
