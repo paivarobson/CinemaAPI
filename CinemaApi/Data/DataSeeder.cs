@@ -1,4 +1,8 @@
-public class DataSeeder
+using CinemaApi.Models;
+
+namespace CinemaApi.Data
+{
+    public class DataSeeder
 {
     public static void Seed(CinemaContext context)
     {
@@ -52,4 +56,6 @@ public class DataSeeder
             context.SaveChanges();
         }
     }
+}
+
 }

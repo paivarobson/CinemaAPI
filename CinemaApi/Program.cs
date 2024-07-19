@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Connections;
 using Microsoft.EntityFrameworkCore;
+using CinemaApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

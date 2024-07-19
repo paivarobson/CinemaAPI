@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using CinemaApi.Models;
 
-public class CinemaContext : DbContext
+namespace CinemaApi.Data
+{
+    public class CinemaContext : DbContext
 {
     public CinemaContext(DbContextOptions<CinemaContext> options) : base(options) {}
 
@@ -25,4 +28,5 @@ public class CinemaContext : DbContext
 
         base.OnModelCreating(modelBuilder);
     }
+}
 }

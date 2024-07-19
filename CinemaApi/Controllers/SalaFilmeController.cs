@@ -1,114 +1,119 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CinemaApi.Data;
+using CinemaApi.Models;
 
-[Route("api/[controller]")]
-[ApiController]
-public class SalaFilmeController : ControllerBase
+namespace CinemaApi.Controllers
 {
-    private readonly CinemaContext _context;
-
-    public SalaFilmeController(CinemaContext context)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class SalaFilmeController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly CinemaContext _context;
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<SalaFilme>>> GetSalaFilmes(int pagina = 1, int itensPagina = 3)
-    {
-        if (pagina <= 0 || itensPagina <= 0)
-            return BadRequest("Página e itens da página devem ser maiores que 0");
-
-        var totalSalaFilme = await _context.SalaFilmes.CountAsync();
-
-        if (totalSalaFilme == 0)
-            return NotFound("Nenhuma sala com filmes encontrada.");
-
-        var totalPaginas = (int)Math.Ceiling(totalSalaFilme / (double)itensPagina);
-
-        if (pagina > totalPaginas)
-            return BadRequest($"O número de página(s) excede o total de página(s). Existem apena(s) {totalPaginas} página(s).");
-
-        var salaFilme = await _context.SalaFilmes
-            .Skip((pagina - 1) * itensPagina)
-            .Take(itensPagina)
-            .ToListAsync();
-
-        var dados = new
+        public SalaFilmeController(CinemaContext context)
         {
-            Pagina = pagina,
-            ItensPagina = itensPagina,
-            TotalSalaFilme = totalSalaFilme,
-            TotalPaginas = totalPaginas,
-            SalaFilme = salaFilme
-        };
-
-        return Ok(dados);
-    }
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult<SalaFilme>> GetSalaFilme(int id)
-    {
-        var salaFilme = await _context.SalaFilmes
-            .Include(sf => sf.Sala)
-            .Include(sf => sf.Filme)
-            .FirstOrDefaultAsync(sf => sf.SalaId == id);
-
-        if (salaFilme == null)
-            return NotFound();
-
-        return salaFilme;
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<SalaFilme>> PostSalaFilme(SalaFilme salaFilme)
-    {
-        _context.SalaFilmes.Add(salaFilme);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetSalaFilme), new { id = salaFilme.SalaId }, salaFilme);
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutSalaFilme(int id, SalaFilme salaFilme)
-    {
-        if (id != salaFilme.FilmeId)
-        {
-            return BadRequest();
+            _context = context;
         }
 
-        _context.Entry(salaFilme).State = EntityState.Modified;
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SalaFilme>>> GetSalaFilmes(int pagina = 1, int itensPagina = 3)
+        {
+            if (pagina <= 0 || itensPagina <= 0)
+                return BadRequest("Página e itens da página devem ser maiores que 0");
 
-        try
-        {
-            await _context.SaveChangesAsync();
+            var totalSalaFilme = await _context.SalaFilmes.CountAsync();
+
+            if (totalSalaFilme == 0)
+                return NotFound("Nenhuma sala com filmes encontrada.");
+
+            var totalPaginas = (int)Math.Ceiling(totalSalaFilme / (double)itensPagina);
+
+            if (pagina > totalPaginas)
+                return BadRequest($"O número de página(s) excede o total de página(s). Existem apena(s) {totalPaginas} página(s).");
+
+            var salaFilme = await _context.SalaFilmes
+                .Skip((pagina - 1) * itensPagina)
+                .Take(itensPagina)
+                .ToListAsync();
+
+            var dados = new
+            {
+                Pagina = pagina,
+                ItensPagina = itensPagina,
+                TotalSalaFilme = totalSalaFilme,
+                TotalPaginas = totalPaginas,
+                SalaFilme = salaFilme
+            };
+
+            return Ok(dados);
         }
-        catch
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<SalaFilme>> GetSalaFilme(int id)
         {
-            if (!SalaFilmeExiste(id))
+            var salaFilme = await _context.SalaFilmes
+                .Include(sf => sf.Sala)
+                .Include(sf => sf.Filme)
+                .FirstOrDefaultAsync(sf => sf.SalaId == id);
+
+            if (salaFilme == null)
                 return NotFound();
-            else
-                throw;
+
+            return salaFilme;
         }
 
-        return NoContent();
-    }
+        [HttpPost]
+        public async Task<ActionResult<SalaFilme>> PostSalaFilme(SalaFilme salaFilme)
+        {
+            _context.SalaFilmes.Add(salaFilme);
+            await _context.SaveChangesAsync();
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteSalaFilme(int id)
-    {
-        var salaFilme = await _context.SalaFilmes.FindAsync(id);
+            return CreatedAtAction(nameof(GetSalaFilme), new { id = salaFilme.SalaId }, salaFilme);
+        }
 
-        if (salaFilme == null)
-            return NotFound();
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutSalaFilme(int id, SalaFilme salaFilme)
+        {
+            if (id != salaFilme.FilmeId)
+            {
+                return BadRequest();
+            }
 
-        _context.SalaFilmes.Remove(salaFilme);
-        await _context.SaveChangesAsync();
+            _context.Entry(salaFilme).State = EntityState.Modified;
 
-        return NoContent();
-    }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                if (!SalaFilmeExiste(id))
+                    return NotFound();
+                else
+                    throw;
+            }
 
-    private bool SalaFilmeExiste(int id)
-    {
-        return _context.SalaFilmes.Any(e => e.SalaId == id);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSalaFilme(int id)
+        {
+            var salaFilme = await _context.SalaFilmes.FindAsync(id);
+
+            if (salaFilme == null)
+                return NotFound();
+
+            _context.SalaFilmes.Remove(salaFilme);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool SalaFilmeExiste(int id)
+        {
+            return _context.SalaFilmes.Any(e => e.SalaId == id);
+        }
     }
 }
