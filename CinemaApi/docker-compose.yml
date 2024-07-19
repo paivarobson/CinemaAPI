@@ -20,7 +20,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - "8081:80"
+      - "8080:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=mysql;Database=cinema_db;User=root;Password=password;"
