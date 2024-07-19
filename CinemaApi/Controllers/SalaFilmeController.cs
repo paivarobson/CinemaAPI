@@ -75,7 +75,7 @@ namespace CinemaApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSalaFilme(int id, SalaFilme salaFilme)
         {
-            if (id != salaFilme.FilmeId)
+            if (id != salaFilme.Id)
             {
                 return BadRequest();
             }
