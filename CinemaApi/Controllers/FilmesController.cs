@@ -57,7 +57,7 @@ namespace CinemaApi.Controllers
             if (filme == null)
                 return NotFound();
 
-            return filme;
+            return Ok(filme);
         }
 
         [HttpPost]
