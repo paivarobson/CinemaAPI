@@ -33,7 +33,7 @@ public class SalasController : ControllerBase
             .Take(itensPagina)
             .ToListAsync();
 
-        var result = new
+        var dados = new
         {
             Pagina = pagina,
             ItensPagina = itensPagina,
@@ -42,18 +42,21 @@ public class SalasController : ControllerBase
             Salas = salas
         };
 
-        return Ok(result);
+        return Ok(dados);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Sala>> GetSala(int id)
     {
-        var sala = await _context.Salas.FindAsync(id);
+        var sala = await _context.Salas
+            .Include(s => s.SalaFilmes)
+            .ThenInclude(sf => sf.Filme)
+            .FirstOrDefaultAsync(s => s.Id == id);
 
         if (sala == null)
             return NotFound();
 
-        return sala;
+        return Ok(sala);
     }
 
     [HttpPost]

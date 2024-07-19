@@ -25,35 +25,31 @@ public class DataSeeder
                 new Sala { Numero = 2, Descricao = "Sala 02" },
                 new Sala { Numero = 3, Descricao = "Sala 03" },
                 new Sala { Numero = 4, Descricao = "Sala 04" },
-                new Sala { Numero = 5, Descricao = "Sala 05" },
-                new Sala { Numero = 6, Descricao = "Sala 06" }
+                new Sala { Numero = 5, Descricao = "Sala 05" }
             };
 
             context.Salas.AddRange(salas);
             context.SaveChanges();
         }
 
-        if (!context.Cinemas.Any())
+        if (!context.SalaFilmes.Any())
         {
-            var filmes = context.Filmes.ToList();
             var salas = context.Salas.ToList();
+            var filmes = context.Filmes.ToList();
 
-            var cinemas = new List<Cinema>
+            var salaFilmes = new List<SalaFilme>
             {
-                new Cinema { SalaId = salas[0].Id, FilmeId = filmes[0].Id },
-                new Cinema { SalaId = salas[0].Id, FilmeId = filmes[1].Id },
-                new Cinema { SalaId = salas[1].Id, FilmeId = filmes[0].Id },
-                new Cinema { SalaId = salas[2].Id, FilmeId = filmes[0].Id },
-                new Cinema { SalaId = salas[2].Id, FilmeId = filmes[1].Id },
-                new Cinema { SalaId = salas[2].Id, FilmeId = filmes[2].Id },
-                new Cinema { SalaId = salas[3].Id, FilmeId = filmes[3].Id },
-                new Cinema { SalaId = salas[4].Id, FilmeId = filmes[4].Id },
-                new Cinema { SalaId = salas[5].Id, FilmeId = filmes[4].Id }
+                new SalaFilme { SalaId = salas[0].Id, FilmeId = filmes[0].Id },
+                new SalaFilme { SalaId = salas[0].Id, FilmeId = filmes[1].Id },
+                new SalaFilme { SalaId = salas[1].Id, FilmeId = filmes[1].Id },
+                new SalaFilme { SalaId = salas[1].Id, FilmeId = filmes[2].Id },
+                new SalaFilme { SalaId = salas[1].Id, FilmeId = filmes[2].Id },
+                new SalaFilme { SalaId = salas[2].Id, FilmeId = filmes[3].Id },
+                new SalaFilme { SalaId = salas[2].Id, FilmeId = filmes[4].Id }
             };
 
-            context.Cinemas.AddRange(cinemas);
+            context.SalaFilmes.AddRange(salaFilmes);
             context.SaveChanges();
         }
-
     }
 }

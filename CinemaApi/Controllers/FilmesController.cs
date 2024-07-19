@@ -33,7 +33,7 @@ public class FilmesController : ControllerBase
             .Take(itensPagina)
             .ToListAsync();
 
-        var result = new
+        var dados = new
         {
             Pagina = pagina,
             ItensPagina = itensPagina,
@@ -42,7 +42,7 @@ public class FilmesController : ControllerBase
             Filmes = filmes
         };
 
-        return Ok(result);
+        return Ok(dados);
     }
 
     [HttpGet("{id}")]
