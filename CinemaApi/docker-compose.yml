@@ -1,0 +1,29 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_DATABASE: "cinema_db"
+      MYSQL_ROOT_PASSWORD: "password"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  cinema-api:
+    image: cinemaapi:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cinemaapi_container
+    depends_on:
+      - mysql
+    ports:
+      - "8081:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=cinema_db;User=root;Password=password;"
+
+volumes:
+  mysql-data:
