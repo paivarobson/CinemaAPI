@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<CinemaContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-    new MySqlServerVersion(new Version(7, 0, 0))));
+    new MySqlServerVersion(new Version(9, 0, 0))));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
