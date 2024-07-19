@@ -6,12 +6,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CinemaApi.Migrations
 {
     /// <inheritdoc />
-    public partial class CriacaoInicial : Migration
+    public partial class Migrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Filmes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Diretor = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Duracao = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Filmes", x => x.Id);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -31,31 +49,7 @@ namespace CinemaApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Filmes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Diretor = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Duracao = table.Column<int>(type: "int", nullable: false),
-                    SalaId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Filmes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Filmes_Salas_SalaId",
-                        column: x => x.SalaId,
-                        principalTable: "Salas",
-                        principalColumn: "Id");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Cinemas",
+                name: "SalaFilmes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -65,15 +59,15 @@ namespace CinemaApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cinemas", x => x.Id);
+                    table.PrimaryKey("PK_SalaFilmes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cinemas_Filmes_FilmeId",
+                        name: "FK_SalaFilmes_Filmes_FilmeId",
                         column: x => x.FilmeId,
                         principalTable: "Filmes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Cinemas_Salas_SalaId",
+                        name: "FK_SalaFilmes_Salas_SalaId",
                         column: x => x.SalaId,
                         principalTable: "Salas",
                         principalColumn: "Id",
@@ -82,18 +76,13 @@ namespace CinemaApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cinemas_FilmeId",
-                table: "Cinemas",
+                name: "IX_SalaFilmes_FilmeId",
+                table: "SalaFilmes",
                 column: "FilmeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cinemas_SalaId",
-                table: "Cinemas",
-                column: "SalaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Filmes_SalaId",
-                table: "Filmes",
+                name: "IX_SalaFilmes_SalaId",
+                table: "SalaFilmes",
                 column: "SalaId");
         }
 
@@ -101,7 +90,7 @@ namespace CinemaApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cinemas");
+                name: "SalaFilmes");
 
             migrationBuilder.DropTable(
                 name: "Filmes");
