@@ -53,7 +53,6 @@ public class SalaFilmeController : ControllerBase
             .Include(sf => sf.Filme)
             .FirstOrDefaultAsync(sf => sf.SalaId == id);
 
-
         if (salaFilme == null)
             return NotFound();
 
