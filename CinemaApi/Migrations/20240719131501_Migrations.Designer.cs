@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaApi.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    [Migration("20240718235952_Migrations")]
+    [Migration("20240719131501_Migrations")]
     partial class Migrations
     {
         /// <inheritdoc />
